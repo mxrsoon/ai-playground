@@ -33,7 +33,7 @@
 
     html {
       scroll-behavior: smooth;
-      overflow-x: hidden;
+      overflow-x: hidden; /* prevent html element itself from scrolling horizontally */
     }
 
     body {
@@ -45,16 +45,18 @@
       position: relative;
     }
 
+    /* Noise texture overlay */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOcta[...]
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 1000;
       opacity: 0.4;
     }
 
+    /* Grid lines background */
     body::after {
       content: '';
       position: fixed;
@@ -68,6 +70,7 @@
       opacity: 0.5;
     }
 
+    /* ── Layout ── */
     .shell {
       position: relative;
       z-index: 1;
@@ -76,6 +79,7 @@
       padding: 0 2rem;
     }
 
+    /* ── Header ── */
     header {
       padding: 3rem 0 2rem;
       display: flex;
@@ -107,10 +111,11 @@
 
     nav a:hover { color: var(--accent); }
 
+    /* ── Hero ── */
     .hero {
       padding: 7rem 0 5rem;
       position: relative;
-      overflow: hidden;
+      overflow: hidden; /* clip the orbs so they don't cause horizontal scroll */
     }
 
     .hero-tag {
@@ -205,6 +210,7 @@
       color: var(--accent);
     }
 
+    /* ── Terminal block ── */
     .terminal-wrap {
       margin-top: 5rem;
       animation: fadeUp 0.6s 0.5s ease both;
@@ -247,7 +253,7 @@
       padding: 1.5rem;
       font-size: 0.78rem;
       line-height: 2;
-      overflow-x: auto;
+      overflow-x: auto; /* allow the terminal content itself to scroll internally if needed */
     }
 
     .line { display: flex; gap: 0.8rem; }
@@ -266,6 +272,7 @@
       animation: blink 1s step-end infinite;
     }
 
+    /* ── What's here ── */
     .section {
       padding: 5rem 0;
       border-top: 1px solid var(--border);
@@ -286,3 +293,272 @@
       background: var(--border);
       border: 1px solid var(--border);
     }
+
+    .card {
+      background: var(--bg);
+      padding: 2rem 1.5rem;
+      position: relative;
+      transition: background 0.2s;
+    }
+
+    .card:hover {
+      background: var(--glow-dim);
+    }
+
+    .card:hover .card-icon {
+      text-shadow: 0 0 20px var(--glow);
+    }
+
+    .card-icon {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      display: block;
+      transition: text-shadow 0.2s;
+    }
+
+    .card-title {
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.6rem;
+    }
+
+    .card-body {
+      font-size: 0.75rem;
+      line-height: 1.7;
+      color: var(--text-dim);
+    }
+
+    /* ── Status bar ── */
+    .status {
+      display: flex;
+      gap: 2rem;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.6s ease both;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .stat-val {
+      font-family: var(--sans);
+      font-size: 2rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .stat-label {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 2rem 0 3rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-copy {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .footer-copy a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.7rem;
+      border-radius: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #28c840;
+      box-shadow: 0 0 6px #28c840;
+      animation: pulse 2s ease infinite;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Glow orbs — decorative, clipped by .hero overflow: hidden */
+    .orb {
+      position: absolute;
+      top: -100px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0,229,255,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .orb2 {
+      position: absolute;
+      bottom: -100px;
+      left: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(124,58,237,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 4rem 0 3rem; }
+      h1 { font-size: 2.5rem; }
+      .status { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="shell">
+
+  <header>
+    <div class="logo">~/mxrsoon/<span>ai-playground</span></div>
+    <nav aria-label="External links">
+      <a href="https://github.com/mxrsoon/ai-playground" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="orb"></div>
+    <div class="orb2"></div>
+
+    <div class="hero-tag">personal sandbox</div>
+
+    <h1>
+      Thinking<br>
+      <span class="dim">in</span>
+      <span class="glow-word">agents.</span>
+    </h1>
+
+    <p class="hero-sub">
+      A scratchpad for exploring autonomous AI — how agents plan, reach for tools,
+      and work through multi-step problems. Nothing production-grade.
+      Just curiosity, running loose.
+    </p>
+
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://github.com/mxrsoon/ai-playground" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        View on GitHub
+      </a>
+      <a class="btn btn-ghost" href="https://mxrsoon.dev" target="_blank" rel="noopener">mxrsoon.dev ↗</a>
+    </div>
+  </section>
+
+  <div class="terminal-wrap">
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <div class="terminal-title">bash — ai-playground</div>
+      </div>
+      <div class="terminal-body">
+        <div class="line"><span class="prompt">$</span><span class="cmd">git clone https://github.com/mxrsoon/ai-playground</span></div>
+        <div class="blank"></div>
+        <div class="line"><span class="prompt">$</span><span class="cmd">ls experiments/</span></div>
+        <!-- Decorative: these paths are illustrative, not actual repo structure -->
+        <div class="out">agentic-flows/&nbsp;&nbsp; tool-use/&nbsp;&nbsp; multi-step-reasoning/&nbsp;&nbsp; autonomous-workflows/</div>
+        <div class="blank"></div>
+        <div class="line"><span class="prompt">$</span><span class="cmd">cat README.md <span class="cmt"># what is this?</span></span></div>
+        <div class="out">Nothing production-grade. Just exploration.</div>
+        <div class="blank"></div>
+        <div class="line"><span class="prompt">$</span><span class="cmd">_<span class="cursor"></span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="section-label">// what's here</div>
+    <div class="cards">
+      <div class="card">
+        <span class="card-icon">🤖</span>
+        <div class="card-title">Agentic Frameworks</div>
+        <div class="card-body">Experiments with orchestration layers, agent loops, and how LLMs decide what to do next.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔧</span>
+        <div class="card-title">Tool Use</div>
+        <div class="card-body">Plugging models into real tools — APIs, file systems, search — and seeing what breaks.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🧠</span>
+        <div class="card-title">Multi-step Reasoning</div>
+        <div class="card-body">Decomposing complex goals into plans, and watching agents follow (or abandon) them.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">⚡</span>
+        <div class="card-title">Autonomous Workflows</div>
+        <div class="card-body">End-to-end pipelines that run with minimal human input. Things may change or break.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="status">
+    <div class="stat">
+      <span class="stat-val">∞</span>
+      <span class="stat-label">experiments</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">100%</span>
+      <span class="stat-label">curiosity-driven</span>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-copy">
+      Maintained by <a href="https://github.com/mxrsoon" target="_blank" rel="noopener">Marlon Macedo</a> · mxrsoon
+    </div>
+    <div class="badge">
+      <div class="badge-dot"></div>
+      actively experimenting
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
