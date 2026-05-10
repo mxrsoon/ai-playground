@@ -33,7 +33,7 @@
 
     html {
       scroll-behavior: smooth;
-      overflow-x: hidden; /* prevent html element itself from scrolling horizontally */
+      overflow-x: hidden;
     }
 
     body {
@@ -115,7 +115,7 @@
     .hero {
       padding: 7rem 0 5rem;
       position: relative;
-      overflow: hidden; /* clip the orbs so they don't cause horizontal scroll */
+      overflow: hidden;
     }
 
     .hero-tag {
@@ -253,7 +253,7 @@
       padding: 1.5rem;
       font-size: 0.78rem;
       line-height: 2;
-      overflow-x: auto; /* allow the terminal content itself to scroll internally if needed */
+      overflow-x: auto;
     }
 
     .line { display: flex; gap: 0.8rem; }
@@ -422,7 +422,7 @@
       50% { opacity: 0.4; }
     }
 
-    /* Glow orbs — decorative, clipped by .hero overflow: hidden */
+    /* Glow orb */
     .orb {
       position: absolute;
       top: -100px;
